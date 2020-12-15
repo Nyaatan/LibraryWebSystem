@@ -1,10 +1,37 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="keywords" content="library, e-book" />
+    <meta http-equiv="X-UA-Compatible" content=""IE="edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'LibraryApp/css/body.css' %}" >
+
+    <style>
+        #container
+        {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
 <body>
-INDEX
+
+    <div id="container">
+
+        <div id="logo" style="margin-bottom: 22%">
+            <img width="32%" height="6%" src="{% static 'LibraryApp/logo.png' %}" />
+        </div>
+        <div class="company-name">
+            Database Project 2
+        </div>
+
+        <br /><br />
+        INDEX
+    </div>
+
 </body>
 </html>
