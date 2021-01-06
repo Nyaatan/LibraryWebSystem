@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="keywords" content="library, e-book" />
+    <meta http-equiv="X-UA-Compatible" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'LibraryApp/css/main.css' %}" >
+</head>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-secondary">
+    <a href="#" class="navbar-brand">
+        <img width="32%" height="6%" src="{% static 'LibraryApp/logo.png' %}"  alt=""/>
+    </a>
+    <ul class="navbar-nav me-auto login-links">
+        <li class="nav-item">
+            <a href="{% url 'login' %}" class="nav-link" >Login</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'register' %}" class="nav-link" >Register</a>
+        </li>
+    </ul>
+</nav>
+
+<body>
+    <div class="bg-light text-dark">
+        <div class="col-5 text-center" id="container">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis erat urna, luctus vehicula auctor eu, scelerisque sed nulla. Etiam ut varius nibh. Fusce dictum luctus neque. Mauris urna nunc, efficitur eget metus eget, tempor tristique nunc. Cras luctus vel lectus id viverra. Curabitur rhoncus elementum mauris at auctor. Donec vel feugiat justo. Nunc consectetur tortor elit. Quisque porta ligula et felis finibus, vitae rutrum nunc elementum. Integer a ornare nulla.
+            <br>
+            <img src="{% static 'LibraryApp/books/covers/default.jpg' %}">
+            <br>
+            Nunc nisi nisl, imperdiet nec ultrices quis, pellentesque quis velit. Ut euismod elit vitae nulla porttitor, at molestie orci auctor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis consectetur in mi sit amet vehicula. Maecenas ac eros in sem accumsan fermentum nec sed erat. Morbi auctor est tristique, molestie nisl in, aliquam felis. Nullam sed eros quis metus dignissim ornare sit amet sit amet dolor. Quisque nec erat et sapien posuere rhoncus. Curabitur vitae tellus aliquam, vehicula ante at, vestibulum arcu. Integer feugiat, nunc id vehicula egestas, ligula augue pretium tellus, at placerat elit libero vitae lorem. Donec vestibulum lobortis luctus. Etiam nec enim nec tellus scelerisque viverra. Nullam et placerat ex, at tristique nunc. Sed nec lorem orci. Curabitur ut mauris at quam convallis lobortis.
+            <br>
+            <img src="{% static 'LibraryApp/books/covers/default.jpg' %}">
+            <br>
+            Proin viverra velit non malesuada faucibus. Nullam dapibus ex mi. Mauris ut odio viverra enim molestie vestibulum non egestas tellus. Nullam a mauris congue, porttitor nisl sit amet, pretium urna. Pellentesque ut nisl congue, dapibus ipsum ac, vestibulum leo. Aliquam egestas dui vitae urna euismod, sed consectetur dui tincidunt. Cras consectetur orci quis ullamcorper congue. Mauris quis vehicula velit, at malesuada orci. Ut ultricies et nunc eu convallis. Mauris volutpat in mi id volutpat. Nullam non mi urna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+            <br>
+            <img src="{% static 'LibraryApp/books/covers/default.jpg' %}">
+            <br>
+            Donec sagittis eget sapien sit amet pulvinar. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum feugiat, ex eget semper tristique, leo neque ullamcorper diam, et finibus orci tortor sit amet mauris. In eget eros finibus, sollicitudin nunc sed, pretium turpis. Fusce eu aliquam ante. Donec non lectus ut arcu consectetur efficitur vitae at lacus. Sed nec erat in leo pretium auctor luctus in elit. Morbi libero sapien, dapibus vitae vulputate sit amet, condimentum mollis lectus. Sed vitae diam eu urna hendrerit convallis eu id metus. Nullam congue, est quis imperdiet consectetur, turpis tortor dapibus purus, a placerat justo mi sed purus. Nullam a orci eget lorem luctus commodo. Sed imperdiet lobortis ipsum ac molestie. Duis suscipit, nunc non venenatis tincidunt, mi risus consequat diam, sodales tempor orci libero a felis. Quisque ullamcorper urna vel libero fermentum, fringilla fermentum orci ultrices. Proin et volutpat lectus.
+            <br>
+            <img src="{% static 'LibraryApp/books/covers/default.jpg' %}">
+            <br>
+            Maecenas a diam dolor. Nam ante ante, pharetra ac eros non, interdum ornare justo. Etiam non eros in erat cursus scelerisque at et diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Fusce et sollicitudin ligula, eu porttitor urna. In fermentum velit eget fringilla imperdiet. Vivamus accumsan nulla ipsum, at lacinia eros condimentum at. Vivamus mattis in dui at pulvinar. Fusce porta, purus et posuere maximus, risus lacus auctor ligula, nec sodales metus ex a ligula. Morbi sollicitudin, tellus mollis pellentesque convallis, felis nisi commodo sem, at laoreet orci ex sed ipsum. In laoreet vehicula ultricies. Nullam aliquet libero luctus, pretium tellus a, tincidunt velit.
+        </div>
+    </div>
+</body>
+</html>

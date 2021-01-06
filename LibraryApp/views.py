@@ -5,24 +5,24 @@ from django.shortcuts import render
 
 
 def index(request):
-    return render(request, 'polls/index.html')
+    return render(request, 'libraryApp/index.html')
 
 
 def login(request):
-    return render(request, 'polls/login.html')
+    return render(request, 'libraryApp/login.html')
 
 
 def browse(request):
-    return render(request, 'polls/browse.html')
+    return render(request, 'libraryApp/browse.html')
 
 
 def register(request):
-    return render(request, 'polls/register.html')
+    return render(request, 'libraryApp/register.html')
 
 
 def read(request):
-    return render(request, 'polls/read.html')
+    return render(request, 'libraryApp/read.html')
 
 
 def user(request):
-    return render(request, 'polls/user.html')
+    return render(request, 'libraryApp/user.html')
