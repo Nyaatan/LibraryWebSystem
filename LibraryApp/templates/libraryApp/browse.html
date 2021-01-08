@@ -29,6 +29,35 @@
 
 <div class="album py-5 bg-light">
     <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-expand-md navbar-dark bg-secondary">
+                <form>
+                    <div class="row">
+                        <div class="form-group col-auto">
+                              <label for="sorting-select">Search by</label>
+                              <select id="sorting-select" class="form-control" name="sort">
+                                    <option selected value="n">Name</option>
+                                    <option value="a">Author</option>
+                              </select>
+                        </div>
+                        <div class="form-group col-auto">
+                              <label for="sorting-select">Order</label>
+                              <select id="sorting-select" class="form-control" name="order">
+                                    <option selected value="a">Ascending</option>
+                                    <option value="d">Descending</option>
+                              </select>
+                        </div>
+                        <div class="form-group col-auto">
+                            <label for="searchbar"></label>
+                            <input id="searchbar" type="text" class="form-control" placeholder="Search" name="search">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary" name="p" value="{{ page }}">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </nav>
+        </div>
         <div class="row" style="width: 100%">
             <div id="previous-page" class="col-1" style="margin-left: 10%">
                 <button class="btn" onclick="previousPage({{ page }})"><</button>

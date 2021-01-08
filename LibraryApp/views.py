@@ -20,20 +20,30 @@ def login(request):
 
 
 def browse(request):
-    ctx = {}
     try:
         page = min(max(int(request.GET.get('p', 1)), 1), ceil(Edition.objects.count()/20))
-    except ValueError:
-        page = 0
+    except (ValueError, AttributeError):
+        page = 1
 
-    editions = Edition.objects.all().order_by('book__title')[(page - 1) * page_elements:
+    sort = request.GET.get('sort', 'n')
+    if sort == 'n':
+        sort = 'book__title'
+    elif sort == 'a':
+        sort = 'book__bookauthor__author__first_name'
+    order = request.GET.get('order', 'a')
+    if order == 'a':
+        pass
+    elif order == 'd':
+        sort = f'-{sort}'
+
+    editions = Edition.objects.all().order_by(sort)[(page - 1) * page_elements:
                                                              min(page * page_elements, Edition.objects.count())]
     ctx = {
         'books': {
             edition.book: {
                 'authors': Author.objects.filter(bookauthor__book__book_id=edition.book.book_id).all(),
                 'cover': f'LibraryApp/books/covers/{edition.isbn}.jpg'
-                if exists(f'LibraryApp/books/covers/{edition.isbn}.jpg') else 'LibraryApp/books/covers/default.jpg',
+                if exists(f'LibraryApp/static/LibraryApp/books/covers/{edition.isbn}.jpg') else 'LibraryApp/books/covers/default.jpg',
                 'isbn': edition.isbn
             } for edition in editions
         },
