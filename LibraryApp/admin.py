@@ -1,5 +1,7 @@
 from django.contrib import admin
 # Register your models here.
+from django.contrib.auth.admin import UserAdmin
+
 from LibraryApp.models import *
 
 
@@ -42,8 +44,8 @@ class SubscriptionAdmin(admin.ModelAdmin):
                     'borrowing_count')
 
 
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'name', 'email', 'hash',
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('user_id', 'name', 'email', 'password',
                     'borrowings_remaining', 'subscription',
                     'card')
 
@@ -54,7 +56,7 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Edition, EditionAdmin)
 admin.site.register(Publisher, PublisherAdmin)
 admin.site.register(Borrowing, BorrowingAdmin)
-admin.site.register(User, UserAdmin)
+admin.site.register(User, CustomUserAdmin)
 admin.site.register(Card, CardAdmin)
 admin.site.register(Subscription, SubscriptionAdmin)
 admin.site.register(Payments, PaymentsAdmin)
