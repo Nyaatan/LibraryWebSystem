@@ -1,12 +1,12 @@
 from os.path import exists
 
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from math import ceil
 
-from LibraryApp.models import Book, Author, Edition
+from LibraryApp.models import Book, Author, Edition, User
+from .forms import LoginForm
 
 page_elements = 20
 
@@ -16,7 +16,15 @@ def index(request):
 
 
 def login(request):
-    return render(request, 'libraryApp/login.html')
+    if request.method != 'POST':
+        form = LoginForm()
+    else:
+        form = LoginForm(data=request.POST)
+        users_list = User.objects.order_by('user_id')
+        if users_list.filter(name=request.POST['name'], password=request.POST['password']).exists():
+            return redirect('browse')
+    context = {'form': form}
+    return render(request, 'libraryApp/login.html', context)
 
 
 def browse(request):
