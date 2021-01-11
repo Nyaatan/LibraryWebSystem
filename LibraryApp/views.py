@@ -29,7 +29,7 @@ def login(request):
 
 def browse(request):
     try:
-        page = min(max(int(request.GET.get('p', 1)), 1), ceil(Edition.objects.count()/20))
+        page = min(max(int(request.GET.get('p', 1)), 1), ceil(Edition.objects.count() / 20))
     except (ValueError, AttributeError):
         page = 1
 
@@ -43,15 +43,25 @@ def browse(request):
         pass
     elif order == 'd':
         sort = f'-{sort}'
-
-    editions = Edition.objects.all().order_by(sort)[(page - 1) * page_elements:
-                                                             min(page * page_elements, Edition.objects.count())]
+    string = request.GET.get('search', '')
+    if sort == 'book__title':
+        editions = Edition.objects.filter(book__title__icontains=string).order_by(sort)[(page - 1) * page_elements:
+                                                                                        min(page * page_elements,
+                                                                                            Edition.objects.count())]
+    elif sort == 'book__bookauthor__author__first_name':
+        editions = (Edition.objects.filter(book__bookauthor__author__first_name__icontains=string) |
+                    Edition.objects.filter(book__bookauthor__author__last_name__icontains=string) |
+                    Edition.objects.filter(book__bookauthor__author__nickname__icontains=string)).order_by(sort)[
+                   (page - 1) * page_elements:
+                   min(page * page_elements,
+                       Edition.objects.count())]
     ctx = {
         'books': {
             edition.book: {
                 'authors': Author.objects.filter(bookauthor__book__book_id=edition.book.book_id).all(),
                 'cover': f'LibraryApp/books/covers/{edition.isbn}.jpg'
-                if exists(f'LibraryApp/static/LibraryApp/books/covers/{edition.isbn}.jpg') else 'LibraryApp/books/covers/default.jpg',
+                if exists(
+                    f'LibraryApp/static/LibraryApp/books/covers/{edition.isbn}.jpg') else 'LibraryApp/books/covers/default.jpg',
                 'isbn': edition.isbn
             } for edition in editions
         },
