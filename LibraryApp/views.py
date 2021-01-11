@@ -21,6 +21,7 @@ def login(request):
     else:
         form = LoginForm(data=request.POST)
         users_list = User.objects.order_by('user_id')
+        print(request.POST['password'], request.POST['name'])
         if users_list.filter(name=request.POST['name'], password=request.POST['password']).exists():
             return redirect('browse')
     context = {'form': form}

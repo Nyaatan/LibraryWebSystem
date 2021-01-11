@@ -143,7 +143,7 @@ class User(models.Model):
     user_id = models.IntegerField(primary_key=True)
     name = models.CharField(unique=True, max_length=16)
     email = models.CharField(unique=True, max_length=32)
-    password = models.CharField(max_length=64, db_column='hash')
+    password = models.CharField(max_length=128, db_column='hash')
     borrowings_remaining = models.IntegerField()
     subscription = models.ForeignKey(Subscription, models.DO_NOTHING)
     card = models.ForeignKey(Card, models.DO_NOTHING, blank=True, null=True)

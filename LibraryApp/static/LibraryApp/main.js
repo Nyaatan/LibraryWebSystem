@@ -13,3 +13,4 @@ function nextPage(i){
     let x = 'p=' + (i + 1);
     location.href = location.href.replace(/p=\d*/, x)
 }
+
