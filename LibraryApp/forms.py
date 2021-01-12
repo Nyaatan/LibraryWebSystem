@@ -9,6 +9,7 @@ class LoginForm(forms.ModelForm):
         fields = ['name', 'password']
         labels = {'name': 'Username', 'password': 'Password'}
         widgets = {
-            'password': forms.PasswordInput
+            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
         }
 
