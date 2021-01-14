@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from math import ceil
 
 from LibraryApp.models import Book, Author, Edition, User
-from .forms import LoginForm
+from .forms import *
 
 page_elements = 20
 
@@ -72,7 +72,15 @@ def browse(request):
 
 
 def register(request):
-    return render(request, 'libraryApp/register.html')
+    if request.method != 'POST':
+        form = SignUpForm()
+    else:
+        form = SignUpForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('user')
+    context = {'form': form}
+    return render(request, 'libraryApp/register.html', context)
 
 
 def read(request):
