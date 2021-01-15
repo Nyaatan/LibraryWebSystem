@@ -7,5 +7,6 @@ sudo apt-get update
 sudo apt-get -y install postgresql
 sudo apt-get -y install pgadmin4-desktop
 sudo apt-get -y install crudini
+sudo apt-get -y install python3-venv
 sudo pip3 install psycopg2
 sudo pip3 install pyyaml

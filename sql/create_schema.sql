@@ -218,35 +218,23 @@ CREATE TRIGGER subtract_borrow_amount AFTER INSERT
     FOR EACH ROW
     EXECUTE PROCEDURE subtract_borrow_amount_funtion();
 
-CREATE USER "Admin"
-    login
-    password 'admin'
-    superuser
-	createrole
-	noinherit
-	CONNECTION LIMIT 1;
-
-create user "Client"
-    password 'client'
-	noinherit;
-
 GRANT SELECT, UPDATE (number)
 ON "Card"
-TO "Client";
+TO libraryapp;
 
 GRANT UPDATE (name, email, hash)
 ON "User_data"
-TO "Client";
+TO libraryapp;
 
 GRANT SELECT (borrowings_remaining)
 ON "User_data"
-TO "Client";
+TO libraryapp;
 
 GRANT SELECT
 ON "Subscription"
-TO "Client";
+TO libraryapp;
 
 GRANT SELECT
 ON "User_data", "Available_books", "Current_borrows"
-TO "Client";
+TO libraryapp;
 

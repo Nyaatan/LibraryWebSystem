@@ -2,18 +2,15 @@ from os.path import exists
 
 from django.shortcuts import render, redirect
 
-# Create your views here.
 from math import ceil
 
-from LibraryApp.models import Book, Author, Edition, User
+from .models import Book, Author, Edition, User
 from .forms import *
 
 page_elements = 20
 
-
 def index(request):
     return render(request, 'libraryApp/index.html')
-
 
 def login(request):
     if request.method != 'POST':
@@ -26,7 +23,6 @@ def login(request):
             return redirect('browse')
     context = {'form': form}
     return render(request, 'libraryApp/login.html', context)
-
 
 def browse(request):
     try:
@@ -70,7 +66,6 @@ def browse(request):
     }
     return render(request, 'libraryApp/browse.html', context=ctx)
 
-
 def register(request):
     if request.method != 'POST':
         form = SignUpForm()
@@ -82,10 +77,8 @@ def register(request):
     context = {'form': form}
     return render(request, 'libraryApp/register.html', context)
 
-
 def read(request):
     return render(request, 'libraryApp/read.html')
-
 
 def user(request):
     return render(request, 'libraryApp/user.html')
