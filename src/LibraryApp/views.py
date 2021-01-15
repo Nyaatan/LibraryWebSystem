@@ -10,7 +10,7 @@ from .forms import *
 page_elements = 20
 
 def index(request):
-    return render(request, 'libraryApp/index.html')
+    return render(request, 'LibraryApp/index.html')
 
 def login(request):
     if request.method != 'POST':
@@ -22,7 +22,7 @@ def login(request):
         if users_list.filter(name=request.POST['name'], password=request.POST['password']).exists():
             return redirect('browse')
     context = {'form': form}
-    return render(request, 'libraryApp/login.html', context)
+    return render(request, 'LibraryApp/login.html', context)
 
 def browse(request):
     try:
@@ -64,7 +64,7 @@ def browse(request):
         },
         'page': page,
     }
-    return render(request, 'libraryApp/browse.html', context=ctx)
+    return render(request, 'LibraryApp/browse.html', context=ctx)
 
 def register(request):
     if request.method != 'POST':
@@ -75,10 +75,10 @@ def register(request):
             form.save()
             return redirect('user')
     context = {'form': form}
-    return render(request, 'libraryApp/register.html', context)
+    return render(request, 'LibraryApp/register.html', context)
 
 def read(request):
-    return render(request, 'libraryApp/read.html')
+    return render(request, 'LibraryApp/read.html')
 
 def user(request):
-    return render(request, 'libraryApp/user.html')
+    return render(request, 'LibraryApp/user.html')

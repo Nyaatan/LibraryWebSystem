@@ -1,36 +1,19 @@
-<!DOCTYPE html>
+{% extends "LibraryApp/base.html" %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <meta name="keywords" content="library, e-book" />
-    <meta http-equiv="X-UA-Compatible" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="{% static 'LibraryApp/css/img_size_card.css' %}" >
-    <script src="{% static 'LibraryApp/main.js' %}"></script>
-
-</head>
-<nav class="navbar navbar-expand-md navbar-dark bg-secondary">
-    <a href="{% url '' %}" class="navbar-brand">
-        <img width="32%" height="6%" src="{% static 'LibraryApp/logo.png' %}"  alt=""/>
-    </a>
-    <a class="btn btn-outline-primary" href="{% url 'user' %}">Account</a>
-</nav>
-<body>
+{% block scripts %}
+<script src="{% static 'LibraryApp/main.js' %}"></script>
+{% endblock %}
+{% block navbar %}
+<a class="btn btn-outline-primary" href="{% url 'user' %}">Moje konto</a>
+{% endblock %}
+{% block content %}
 <div class="spinner-border" role="status" id="loading-spinner">
     <span class="sr-only"></span>
 </div>
-
-<div class="album py-5 bg-light">
+<div class="album py-5">
     <div class="container">
         <div class="row">
-            <nav class="navbar navbar-expand-md navbar-dark bg-secondary">
+            <nav class="navbar navbar-expand-md navbar-light" style="color: #8b6320; background-color: #fff2e3;"> 
                 <form>
                     <div class="row">
                         <div class="form-group col-auto">
@@ -69,9 +52,7 @@
         </div>
 
         <div class="row row-cols-sm-2 row-cols-md-3 g-3">
-
             {% for book, data in books.items %}
-
                 <div class="card shadow-sm card-book" style="width: 18rem;  margin-left: 1rem; margin-right: 1rem;">
                     <img class="card-img-top img-fluid" src="{% static data.cover %}"/>
                     <div class="card-body">
@@ -88,12 +69,8 @@
                         </div>
                     </div>
                 </div>
-
             {% endfor %}
-
         </div>
     </div>
 </div>
-
-</body>
-</html>
+{% endblock %}

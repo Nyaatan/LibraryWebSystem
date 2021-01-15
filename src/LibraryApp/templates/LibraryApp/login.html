@@ -1,0 +1,24 @@
+{% extends "LibraryApp/base.html" %}
+{% load static %}
+{% block scripts %}
+<script src="{% static 'LibraryApp/login.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="col-5 center" id="container">
+    <p>
+        <label for="id_name">Username:</label>
+        <input type="text" class="form-control" name="name" value="" maxlength="16" required="" id="id_name" placeholder="Username">
+    </p>
+    <p>
+        <label for="id_password">Password:</label>
+        <input type="password" class="form-control" name="password" maxlength="128" required="" id="id_password" placeholder="Password">
+    </p>
+
+    <form method="post" id="login-form">
+        {% csrf_token %}
+        <input type="hidden" name="name" required="" id="name">
+        <input type="hidden" name="password" required="" id="password">
+    </form>
+    <button class="btn btn-primary" id="submit-btn">Login</button>
+</div>
+{% endblock %}
