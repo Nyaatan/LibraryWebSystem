@@ -13,16 +13,21 @@ def index(request):
     return render(request, 'LibraryApp/index.html')
 
 def login(request):
-    if request.method != 'POST':
-        form = LoginForm()
-    else:
-        form = LoginForm(data=request.POST)
-        users_list = User.objects.order_by('user_id')
-        print(request.POST['password'], request.POST['name'])
-        if users_list.filter(name=request.POST['name'], password=request.POST['password']).exists():
-            return redirect('browse')
-    context = {'form': form}
-    return render(request, 'LibraryApp/login.html', context)
+    warnings = []
+    if request.method == 'POST':
+        try:
+            current_user = User.objects.get(name=request.POST['name'])
+            if current_user.password.lower() == request.POST['password'].lower():
+                request.session['user'] = current_user.user_id
+                return redirect('browse')
+        except User.DoesNotExist:
+            pass
+        warnings.append("Nieprawidłowa nazwa użytkownika lub hasło")
+    return render(request, 'LibraryApp/login.html', {'warnings': warnings})
+
+def logout(request):
+    del request.session['user']
+    return redirect('')
 
 def browse(request):
     try:

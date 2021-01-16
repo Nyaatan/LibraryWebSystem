@@ -16,7 +16,6 @@ async function sha256(message) {
     return hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
 }
 
-
 function hashPassword(){
     let passField = document.getElementById('id_password');
     let nameField = document.getElementById('id_name');

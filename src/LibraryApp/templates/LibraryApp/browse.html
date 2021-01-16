@@ -1,10 +1,7 @@
 {% extends "LibraryApp/base.html" %}
 {% load static %}
 {% block scripts %}
-<script src="{% static 'LibraryApp/main.js' %}"></script>
-{% endblock %}
-{% block navbar %}
-<a class="btn btn-outline-primary" href="{% url 'user' %}">Moje konto</a>
+<script src="{% static 'LibraryApp/browse.js' %}"></script>
 {% endblock %}
 {% block content %}
 <div class="spinner-border" role="status" id="loading-spinner">
@@ -64,7 +61,7 @@
                         </h6>
                         <div id="btn-read">
                             <a href="{% url 'read' %}?isbn={{ data.isbn }}" class="row" style="margin-bottom: 0; position: static">
-                                <button class="btn btn-sm btn-outline-secondary" type="button" >Read</button>
+                                <button class="btn btn-sm btn-outline-secondary" type="button">Read</button>
                             </a>
                         </div>
                     </div>
