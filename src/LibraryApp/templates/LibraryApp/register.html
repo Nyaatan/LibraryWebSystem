@@ -1,0 +1,51 @@
+{% extends "LibraryApp/base.html" %}
+{% load static %}
+{% block meta %}
+<script src="{% static 'LibraryApp/register.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="col-5 center" id="container">
+    <p>
+        <label for="id_name">Username:</label>
+        <input type="text" class="form-control" name="name" value="" maxlength="16" required="" id="id_name" placeholder="Username">
+    </p>
+    <p>
+        <label for="id_email">E-mail:</label>
+        <input type="email" class="form-control" name="email" maxlength="64" required="" id="id_email" placeholder="E-mail">
+    </p>
+    <p>
+        <label for="id_password">Password:</label>
+        <input type="password" class="form-control" name="password" maxlength="128" required="" id="id_password" placeholder="Password">
+    </p>
+    <p>
+        {{ form.user_id }}
+        {{ form.subscription }}
+        {{ form.borrowings_remaining }}
+    </p>
+
+    <form method="post" id="register-form">
+        {% csrf_token %}
+        <input type="hidden" name="name" required="" id="name">
+        <input type="hidden" name="email" required="" id="email">
+        <input type="hidden" name="password" required="" id="password">
+        <input type="hidden" name="user_id" required="" id="user_id">
+        <input type="hidden" name="subscription" required="" id="subscription">
+        <input type="hidden" name="borrowings_remaining" required="" id="borrowings_remaining">
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </form>
+    <button class="btn btn-primary" id="submit-btn">Register</button>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+#!/bin/bash
+. database.sh
+
+sudo -u postgres -H -- psql <<- SQL
+CREATE DATABASE $db_name;
+CREATE USER $db_user WITH ENCRYPTED PASSWORD '$db_pass'
+    SUPERUSER CREATEROLE NOINHERIT CONNECTION LIMIT 1;
+GRANT ALL PRIVILEGES ON DATABASE $db_name TO $db_user;
+CREATE USER libraryapp WITH ENCRYPTED PASSWORD 'app';
+SQL

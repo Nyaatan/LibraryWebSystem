@@ -1,0 +1,88 @@
+author_last_name_first_name:
+  create_sql: |  
+    CREATE INDEX {}
+        ON "Author" (last_name, first_name);
+  test_sql: |
+    SELECT b.title
+    FROM "Author" a 
+    JOIN "BookAuthor" ba ON a.author_id = ba.author_id
+    JOIN "Book" b ON ba.book_id = b.book_id
+    WHERE a.last_name = 'Martinez' and a.first_name = 'Ronald';
+author_nickname:
+  create_sql: | 
+    CREATE INDEX {}
+        ON "Author" (nickname);
+  test_sql: |
+    SELECT b.title
+    FROM "Author" a 
+    JOIN "BookAuthor" ba ON a.author_id = ba.author_id
+    JOIN "Book" b ON ba.book_id = b.book_id
+    WHERE a.nickname = 'qwerty';
+book_title:
+  create_sql: | 
+    CREATE INDEX {}
+        ON "Book" (title);
+  test_sql: |
+    SELECT e.isbn, e.page_count
+    FROM "Edition" e
+    JOIN "Book" b ON e.book_id = b.book_id
+    WHERE b.title = 'Kula mąka kapelusz pszczoła';
+category_name:
+  create_sql: | 
+    CREATE INDEX {}
+        ON "Category" (name);
+  test_sql: |
+    SELECT e.isbn, b.title, e.page_count
+    FROM "Edition" e
+    JOIN "Book" b ON e.book_id = b.book_id
+    JOIN "Category" c ON b.category_id = c.category_id
+    WHERE c.name = 'kryminał';
+publisher_name:
+  create_sql: | 
+    CREATE INDEX {}
+        ON "Publisher" (name);
+  test_sql: |
+    SELECT e.isbn, b.title, e.page_count
+    FROM "Edition" e
+    JOIN "Publisher" p ON e.publisher_id = p.publisher_id
+    JOIN "Book" b ON e.book_id = b.book_id
+    WHERE p.name = 'Colin';
+subscription_name:
+  create_sql: | 
+    CREATE UNIQUE INDEX {}
+        ON "Subscription" (name);
+  test_sql: |
+    SELECT u.name, u.email
+    FROM "User" u
+    JOIN "Subscription" s ON u.subscription_id = s.subscription_id
+    WHERE s.name = 'None';
+user_email:
+  create_sql: | 
+    CREATE UNIQUE INDEX {}
+        ON "User" (email);
+  test_sql: |
+    SELECT p.payments_id, p.amount, p.date
+    FROM "User" u
+    JOIN "Payments" p ON u.user_id = p.user_id
+    WHERE u.email = 'jasinakonstanty@gmail.com';
+user_name:
+  create_sql: | 
+    CREATE UNIQUE INDEX {}
+        ON "User" (name);
+  test_sql: |
+    SELECT u.email, s.name, u.borrowings_remaining, s.borrowing_count, c.number
+    FROM "User" u
+    JOIN "Subscription" s ON u.subscription_id = s.subscription_id
+    JOIN "Card" c ON u.card_id = c.card_id
+    WHERE u.name = 'przeciwnik';
+end_date:
+  create_sql: | 
+    CREATE INDEX {}
+      ON "Borrowing" (end_date desc);
+  test_sql: |
+    SELECT ed.isbn, bk.title, br.start_date, br.end_date
+    FROM "Borrowing" br
+    JOIN "Edition" ed ON br.isbn = ed.isbn
+    JOIN "Book" bk ON ed.book_id = bk.book_id
+    WHERE (br.user_id = 2) AND (br.end_date > NOW() - INTERVAL '1 month')
+    ORDER BY br.end_date DESC;

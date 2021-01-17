@@ -1,0 +1,73 @@
+{% extends "LibraryApp/base.html" %}
+{% load static %}
+{% block meta %}
+<script src="{% static 'LibraryApp/browse.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="spinner-border" role="status" id="loading-spinner">
+    <span class="sr-only"></span>
+</div>
+<div class="album py-5">
+    <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-expand-md navbar-light" style="color: #8b6320; background-color: #fff2e3;"> 
+                <form>
+                    <div class="row">
+                        <div class="form-group col-auto">
+                              <label for="sorting-select">Search by</label>
+                              <select id="sorting-select" class="form-control" name="sort">
+                                    <option selected value="n">Name</option>
+                                    <option value="a">Author</option>
+                              </select>
+                        </div>
+                        <div class="form-group col-auto">
+                              <label for="sorting-select">Order</label>
+                              <select id="sorting-select" class="form-control" name="order">
+                                    <option selected value="a">Ascending</option>
+                                    <option value="d">Descending</option>
+                              </select>
+                        </div>
+                        <div class="form-group col-auto">
+                            <label for="searchbar"></label>
+                            <input id="searchbar" type="text" class="form-control" placeholder="Search" name="search">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary" name="p" value="{{ page }}">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </nav>
+        </div>
+        <div class="row" style="width: 100%">
+            <div id="previous-page" class="col-1" style="margin-left: 10%">
+                <button class="btn" onclick="previousPage({{ page }})"><</button>
+            </div>
+
+            <div id="next-page" class="col-1" style="margin-right: 10%">
+                <button class="btn" onclick="nextPage({{ page }})">></button>
+            </div>
+        </div>
+
+        <div class="row row-cols-sm-2 row-cols-md-3 g-3">
+            {% for book, data in books.items %}
+                <div class="card shadow-sm card-book" style="width: 18rem;  margin-left: 1rem; margin-right: 1rem;">
+                    <img class="card-img-top img-fluid" src="{% static data.cover %}"/>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ book.title }}
+                        </h5>
+                        <h6>
+                            {{ data.authors.first.first_name }} {% if data.authors.first.nickname is not None %} data.authors.first.nickname {% endif %} {{ data.authors.first.last_name }}
+                        </h6>
+                        <div id="btn-read">
+                            <a href="{% url 'read' %}?isbn={{ data.isbn }}" class="row" style="margin-bottom: 0; position: static">
+                                <button class="btn btn-sm btn-outline-secondary" type="button">Read</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

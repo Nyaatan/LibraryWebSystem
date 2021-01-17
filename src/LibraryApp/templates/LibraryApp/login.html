@@ -1,0 +1,31 @@
+{% extends "LibraryApp/base.html" %}
+{% load static %}
+{% block meta %}
+<script src="{% static 'LibraryApp/login.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="col-5 center" id="container">
+    <p>
+        <label for="id_name">Nazwa użytkownika:</label>
+        <input type="text" class="form-control" name="name" value="" maxlength="16" required="" id="id_name" placeholder="Nazwa użytkownika">
+    </p>
+    <p>
+        <label for="id_password">Hasło:</label>
+        <input type="password" class="form-control" name="password" maxlength="128" required="" id="id_password" placeholder="Hasło">
+    </p>
+
+    <form method="post" id="login-form">
+        {% csrf_token %}
+        <input type="hidden" name="name" required="" id="name">
+        <input type="hidden" name="password" required="" id="password">
+        {% if warnings %}
+            {% for warninig in warnings %}
+                <div class="alert alert-warning">
+                    <strong>{{ warninig|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </form>
+    <button class="btn btn-primary" id="submit-btn">Zaloguj się</button>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "LibraryApp/base.html" %}
+{% load static %}
+{% block meta %}
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.5.207/build/pdf.min.js"></script>
+<script type="text/javascript">
+var bookIsbn = "{{isbn}}";
+var streamBaseUrl = "{% url 'getstream' %}";
+</script>
+<script src="{% static 'LibraryApp/reader.js' %}"></script>
+<link rel="stylesheet" href="{% static 'LibraryApp/css/reader.css' %}" >
+{% endblock %}
+{% block content %}
+<div id="bookBrowser" class="container">
+    <div class="row align-items-center justify-content-between">
+        <div class="col"><h2>{{ title }}</h2></div>
+        <div class="col-2">
+            <span>Strona: <span id="pageNumber"></span> / <span id="pageCount"></span></span>
+        </div>
+    </div>
+    <div id="bookPageContainer">
+        <canvas id="bookPageView"></canvas>
+    </div>
+    <div class="row align-items-center justify-content-between pt-1">
+        <div class="col-2">
+            <button id="zoomIn" class="btn btn-outline-dark">
+                <span class="fa fa-search-plus fa-lg" aria-hidden="true">
+            </button>
+            <button id="zoomOut" class="btn btn-outline-dark">
+                <span class="fa fa-search-minus fa-lg" aria-hidden="true">
+            </button>
+        </div>
+        <div class="col-3">
+            <button id="prevPage" type="button"  class="btn btn-dark">
+                <span class="fa fa-chevron-left fa-lg" aria-hidden="true"></span>  Wstecz
+            </button>
+            <button id="nextPage" type="button" class="btn btn-dark">
+                Dalej  <span class="fa fa-chevron-right fa-lg" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
