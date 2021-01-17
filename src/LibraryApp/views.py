@@ -1,13 +1,19 @@
-from os.path import exists
+import os
 
+from django.http import *
 from django.shortcuts import render, redirect
+from django.conf import settings
 
 from math import ceil
 
-from .models import Book, Author, Edition, User
+from .models import Author, Edition, User
 from .forms import *
 
 page_elements = 20
+
+books_location = os.path.join(settings.BOOKS_DIR, "files")
+book_descs_location = os.path.join(settings.BOOKS_DIR, "descs")
+book_covers_location = os.path.join(settings.BOOKS_DIR, "covers")
 
 def index(request):
     return render(request, 'LibraryApp/index.html')
@@ -34,7 +40,6 @@ def browse(request):
         page = min(max(int(request.GET.get('p', 1)), 1), ceil(Edition.objects.count() / 20))
     except (ValueError, AttributeError):
         page = 1
-
     sort = request.GET.get('sort', 'n')
     if sort == 'n':
         sort = 'book__title'
@@ -62,7 +67,10 @@ def browse(request):
             edition.book: {
                 'authors': Author.objects.filter(bookauthor__book__book_id=edition.book.book_id).all(),
                 'cover': f'LibraryApp/books/covers/{edition.isbn}.jpg'
-                if exists(
+                # do okładek pownien być używany osobny endpoint z js'a ładowane
+                # czyli nie ze 'static' jak jest teraz
+                # ale nie ma na to czasu :(
+                if os.path.exists(
                     f'LibraryApp/static/LibraryApp/books/covers/{edition.isbn}.jpg') else 'LibraryApp/books/covers/default.jpg',
                 'isbn': edition.isbn
             } for edition in editions
@@ -83,7 +91,44 @@ def register(request):
     return render(request, 'LibraryApp/register.html', context)
 
 def read(request):
-    return render(request, 'LibraryApp/read.html')
+    context = {}
+    isbn = int(request.GET.get('isbn', '-1'))
+    if isbn > 0:
+        context['isbn'] = isbn
+        try:
+            book_data = Edition.objects.get(isbn=isbn)
+            context['title'] = book_data.book.title
+        except Edition.DoesNotExist:
+            pass
+    return render(request, 'LibraryApp/read.html', context)
 
 def user(request):
     return render(request, 'LibraryApp/user.html')
+
+def get_book_stream(request):
+    isbn = request.GET.get('isbn', None)
+    return _create_book_data_response(isbn, books_location, ".pdf")
+
+def get_book_desc(request):
+    isbn = request.GET.get('isbn', None)
+    return _create_book_data_response(isbn, book_descs_location, ".txt")
+
+def get_book_cover(request):
+    isbn = request.GET.get('isbn', None)
+    return _create_book_data_response(isbn, book_covers_location, ".jpg")
+
+def _create_book_data_response(book_isbn, location, extension):
+    if book_isbn is None:
+        return HttpResponseBadRequest()
+    file_path = os.path.join(location, book_isbn + extension)
+    if not os.path.isfile(file_path):
+        #return HttpResponseBadRequest()
+        file_path = os.path.join(location, "default" + extension)
+    with open(file_path, 'rb') as file:
+        data = file.read()
+    response = HttpResponse(content_type="application/octet-stream")
+    response['Content-Description'] = 'File Transfer'
+    response['Cache-Control'] = 'must-revalidate'
+    response['Content-Length'] = len(data)
+    response.write(data)
+    return response

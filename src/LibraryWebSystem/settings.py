@@ -9,6 +9,7 @@ db_conf_reader.read('../../config.ini')
 db_conf_data = db_conf_reader["database"]
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+BOOKS_DIR = os.path.join(os.path.dirname(BASE_DIR), "books")
 
 SECRET_KEY = 'x&3moqjm-%uq94cj3inhuhcn)r4tn$h#5p@)(tbmp!@@bjwmw5'
 

@@ -1,0 +1,12 @@
+#bookBrowser {
+    margin: auto;
+    position: relative;
+    width: 80%;
+}
+
+#bookPageContainer {
+    position: relative;
+    width: 100%;
+    overflow: scroll;
+    border: 1px solid black;
+}

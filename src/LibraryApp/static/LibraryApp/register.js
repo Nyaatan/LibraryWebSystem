@@ -1,6 +1,6 @@
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('submit-btn').onclick = hashPassword;
-});
+window.onload = function() {
+    document.getElementById('submit-btn').onclick = submit;
+};
 
 async function sha256(message) {
     // encode as UTF-8
@@ -16,7 +16,7 @@ async function sha256(message) {
     return hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
 }
 
-function hashPassword(){
+function submit(){
     let passField = document.getElementById('id_password');
     let nameField = document.getElementById('id_name');
     let emailField = document.getElementById('id_email');

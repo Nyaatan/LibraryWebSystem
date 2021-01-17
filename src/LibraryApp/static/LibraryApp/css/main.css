@@ -1,18 +1,19 @@
-#container
-{
+html {
+    height: 100%;
+}
+
+#container {
     margin-left: 25%;
     margin-right: 25%;
 }
 
-.card-book
-{
+.card-book {
     margin-bottom: 5%;
     margin-left: 1rem;
     margin-right: 1rem;
 }
 
-#loading-spinner
-{
+#loading-spinner {
     margin: 50%;
     position: fixed;
     height: 5%;
