@@ -5,7 +5,7 @@ import configparser
 from pathlib import Path
 
 db_conf_reader = configparser.ConfigParser()
-db_conf_reader.read('../../config.ini')
+db_conf_reader.read('../config.ini')
 db_conf_data = db_conf_reader["database"]
 
 BASE_DIR = Path(__file__).resolve().parent.parent
