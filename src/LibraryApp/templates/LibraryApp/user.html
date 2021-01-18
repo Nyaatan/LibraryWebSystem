@@ -71,12 +71,33 @@
             {% endfor %}
         </div>
     </template>
+    <template id="borrowing-data">
+        <table class="table">
+            <thread>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Start date</th>
+                    <th scope="col">End date</th>
+                </tr>
+            </thread>
+            {% for borrowing in borrowings %}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ borrowing.isbn.book.title }}</th>
+                        <td>{{ borrowing.start_date }} </td>
+                        <td>{{ borrowing.end_date }}</td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </template>
 
     <div class="row">
         <div class="col-lg-3">
             <div class="list-group list-group-flush">
                 <button class="list-group-item list-group-item-action active" id="user-data-btn" onclick="changeView(this)">User data</button>
                 <button class="list-group-item list-group-item-action" id="subscription-data-btn" onclick="changeView(this)">Manage subscriptions</button>
+                <button class="list-group-item list-group-item-action" id="borrowing-data-btn" onclick="changeView(this)">Borrowings</button>
             </div>
         </div>
         <div class="col-4" id="view"></div>

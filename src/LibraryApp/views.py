@@ -154,6 +154,7 @@ def user(request):
     user.borrowings_remaining = max(user.borrowings_remaining, 0)
     ctx = {
         'user': user,
+        'borrowings': Borrowing.objects.filter(user_id=user.user_id),
         'form': form,
         'subscriptions': Subscription.objects.all()
     }
