@@ -15,8 +15,10 @@ books_location = os.path.join(settings.BOOKS_DIR, "files")
 book_descs_location = os.path.join(settings.BOOKS_DIR, "descs")
 book_covers_location = os.path.join(settings.BOOKS_DIR, "covers")
 
+
 def index(request):
     return render(request, 'LibraryApp/index.html')
+
 
 def login(request):
     warnings = []
@@ -31,9 +33,11 @@ def login(request):
         warnings.append("Nieprawidłowa nazwa użytkownika lub hasło")
     return render(request, 'LibraryApp/login.html', {'warnings': warnings})
 
+
 def logout(request):
     del request.session['user']
     return redirect('')
+
 
 def browse(request):
     try:
@@ -44,7 +48,7 @@ def browse(request):
     if sort == 'n':
         sort = 'book__title'
     elif sort == 'a':
-        sort = 'book__bookauthor__author__first_name'
+        sort = 'book__bookauthor__author__last_name'
     order = request.GET.get('order', 'a')
     if order == 'a':
         pass
@@ -55,13 +59,15 @@ def browse(request):
         editions = Edition.objects.filter(book__title__icontains=string).order_by(sort)[(page - 1) * page_elements:
                                                                                         min(page * page_elements,
                                                                                             Edition.objects.count())]
-    elif sort == 'book__bookauthor__author__first_name':
+    elif sort == 'book__bookauthor__author__last_name':
         editions = (Edition.objects.filter(book__bookauthor__author__first_name__icontains=string) |
                     Edition.objects.filter(book__bookauthor__author__last_name__icontains=string) |
                     Edition.objects.filter(book__bookauthor__author__nickname__icontains=string)).order_by(sort)[
                    (page - 1) * page_elements:
                    min(page * page_elements,
                        Edition.objects.count())]
+    else:
+        editions = Edition.objects.order_by(sort)
     ctx = {
         'books': {
             edition.book: {
@@ -79,6 +85,7 @@ def browse(request):
     }
     return render(request, 'LibraryApp/browse.html', context=ctx)
 
+
 def register(request):
     if request.method != 'POST':
         form = SignUpForm()
@@ -89,6 +96,7 @@ def register(request):
             return redirect('user')
     context = {'form': form}
     return render(request, 'LibraryApp/register.html', context)
+
 
 def read(request):
     context = {}
@@ -102,27 +110,50 @@ def read(request):
             pass
     return render(request, 'LibraryApp/read.html', context)
 
+
 def user(request):
-    return render(request, 'LibraryApp/user.html')
+    user = User.objects.get(user_id=request.session['user'])
+    form = SignUpForm()
+    if request.method == 'POST':
+        data = request.POST
+        name = data['name']
+        email = data['email']
+        password = data['password']
+        if name != '':
+            user.name = name
+        if email != '':
+            user.email = email
+        if password != '':
+            user.password = password
+        user.save()
+    ctx = {
+        'user': user,
+        'form': form,
+    }
+    return render(request, 'LibraryApp/user.html', context=ctx)
+
 
 def get_book_stream(request):
     isbn = request.GET.get('isbn', None)
     return _create_book_data_response(isbn, books_location, ".pdf")
 
+
 def get_book_desc(request):
     isbn = request.GET.get('isbn', None)
     return _create_book_data_response(isbn, book_descs_location, ".txt")
 
+
 def get_book_cover(request):
     isbn = request.GET.get('isbn', None)
     return _create_book_data_response(isbn, book_covers_location, ".jpg")
+
 
 def _create_book_data_response(book_isbn, location, extension):
     if book_isbn is None:
         return HttpResponseBadRequest()
     file_path = os.path.join(location, book_isbn + extension)
     if not os.path.isfile(file_path):
-        #return HttpResponseBadRequest()
+        # return HttpResponseBadRequest()
         file_path = os.path.join(location, "default" + extension)
     with open(file_path, 'rb') as file:
         data = file.read()

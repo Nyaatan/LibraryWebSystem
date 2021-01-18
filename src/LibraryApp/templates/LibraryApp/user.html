@@ -1,5 +1,51 @@
 {% extends "LibraryApp/base.html" %}
 {% load static %}
 {% block content %}
-USER SCREEN
+    <script src="{% static 'LibraryApp/js/user.js' %}"></script>
+    <template id="user-data">
+        <p>
+            <label for="id_name">Username:</label>
+            <input type="text" class="form-control" name="name" value="" maxlength="16" id="id_name" placeholder="{{ user.name }}">
+        </p>
+        <p>
+            <label for="id_email">E-mail:</label>
+            <input type="email" class="form-control" name="email" maxlength="64" id="id_email" placeholder="{{ user.email }}">
+        </p>
+        <p>
+            <label for="id_password">New password:</label>
+            <input type="password" class="form-control" name="password" maxlength="128" id="id_password" placeholder="Password">
+        </p>
+        <form method="post" id="edit-form">
+            {% csrf_token %}
+            <input type="hidden" name="name" id="name">
+            <input type="hidden" name="email" id="email">
+            <input type="hidden" name="password" id="password">
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </form>
+        <button class="btn btn-primary" id="submit-btn">Submit</button>
+    </template>
+    <template id="subscription-data">SUBSCRIPTION DATA</template>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="list-group list-group-flush">
+                <button class="list-group-item list-group-item-action active" id="user-data-btn" onclick="changeView(this)">User data</button>
+                <button class="list-group-item list-group-item-action" id="subscription-data-btn" onclick="changeView(this)">Manage subscriptions</button>
+            </div>
+        </div>
+        <div class="col-4" id="view"></div>
+    </div>
 {% endblock %}
