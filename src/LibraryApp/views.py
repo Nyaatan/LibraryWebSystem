@@ -1,12 +1,14 @@
 import os
 
+from django.core.exceptions import PermissionDenied
 from django.http import *
 from django.shortcuts import render, redirect
 from django.conf import settings
+from datetime import datetime, timedelta
 
 from math import ceil
 
-from .models import Author, Edition, User
+from .models import Author, Edition, User, Borrowing
 from .forms import *
 
 page_elements = 20
@@ -78,7 +80,11 @@ def browse(request):
                 # ale nie ma na to czasu :(
                 if os.path.exists(
                     f'LibraryApp/static/LibraryApp/books/covers/{edition.isbn}.jpg') else 'LibraryApp/books/covers/default.jpg',
-                'isbn': edition.isbn
+                'isbn': edition.isbn,
+                'description': open(f'LibraryApp/static/LibraryApp/books/descs/{edition.isbn}.txt', encoding='UTF-8').read()
+                if os.path.exists(
+                    f'LibraryApp/static/LibraryApp/books/descs/{edition.isbn}.txt')
+                else open('LibraryApp/static/LibraryApp/books/descs/default.txt', encoding='UTF-8').read(),
             } for edition in editions
         },
         'page': page,
@@ -103,11 +109,23 @@ def read(request):
     isbn = int(request.GET.get('isbn', '-1'))
     if isbn > 0:
         context['isbn'] = isbn
-        try:
-            book_data = Edition.objects.get(isbn=isbn)
-            context['title'] = book_data.book.title
-        except Edition.DoesNotExist:
-            pass
+        user = User.objects.get(user_id=request.session['user'])
+        if user.borrowings_remaining > 0:
+            if len(Borrowing.objects.filter(user_id=user.user_id, isbn=isbn)) == 0:
+                borrow = Borrowing(start_date=datetime.today(), end_date=datetime.today() + timedelta(days=30),
+                                   isbn=Edition.objects.get(isbn=isbn), user_id=user.user_id,
+                                   borrowing_id=Borrowing.objects.count())
+                borrow.save()
+                user.borrowings_remaining -= 1
+                user.save()
+            try:
+                book_data = Edition.objects.get(isbn=isbn)
+                context['title'] = book_data.book.title
+            except Edition.DoesNotExist:
+                pass
+        else:
+            raise PermissionDenied
+
     return render(request, 'LibraryApp/read.html', context)
 
 
@@ -115,20 +133,29 @@ def user(request):
     user = User.objects.get(user_id=request.session['user'])
     form = SignUpForm()
     if request.method == 'POST':
-        data = request.POST
-        name = data['name']
-        email = data['email']
-        password = data['password']
-        if name != '':
-            user.name = name
-        if email != '':
-            user.email = email
-        if password != '':
-            user.password = password
-        user.save()
+        if request.POST['type'] == 'u':
+            data = request.POST
+            name = data['name']
+            email = data['email']
+            password = data['password']
+            if name != '':
+                user.name = name
+            if email != '':
+                user.email = email
+            if password != '':
+                user.password = password
+            user.save()
+        elif request.POST['type'] == 's':
+            sub = Subscription.objects.get(subscription_id=int(request.POST['subscription']))
+            user.borrowings_remaining = sub.borrowing_count - (
+                        user.subscription.borrowing_count - user.borrowings_remaining)
+            user.subscription = sub
+            user.save()
+    user.borrowings_remaining = max(user.borrowings_remaining, 0)
     ctx = {
         'user': user,
         'form': form,
+        'subscriptions': Subscription.objects.all()
     }
     return render(request, 'LibraryApp/user.html', context=ctx)
 

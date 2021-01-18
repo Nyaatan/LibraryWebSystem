@@ -1,0 +1,12 @@
+Informatyczna rewolucja dosięgła również systemy bazodanowe. Przez długi czas administrator bazy danych interesował się głównie wewnętrznymi mechanizmami bazy, optymalizacją zapytań czy analizą podsystemów składowania danych. Z kolei oprogramowaniem stron, infrastrukturą czy usługami sieciowymi zajmowali się zupełnie inni ludzie, pracujący w odmienny sposób. Nowe technologie wymuszają jednak zmianę sposobu pracy i myślenia. Trzeba położyć nacisk na automatyzację, inżynierię oprogramowania, ciągłą integrację i ciągłe udostępnianie. Poza tym trzeba zapewnić ochronę przetwarzanych danych - ich wartość i znaczenie wciąż szybko rosną.
+
+W tej praktycznej książce dokładnie wyjaśniono współczesne podejście do tworzenia architektury baz danych i ich eksploatacji. Jeśli chcesz stać się znakomitym inżynierem niezawodności baz danych, czyli DBRE (z Database Reliability Engineer), znajdziesz tu schemat zasad i praktyk projektowania, budowania i eksploatacji magazynów danych zgodnie z paradygmatami inżynierii niezawodności i kultury DevOps. Zapoznasz się z podstawowymi zagadnieniami z obszaru eksploatacji, z metodami utrwalania baz danych, nauczysz się stosować najważniejsze technologie skalowalnego i wydajnego składowania oraz pobierania danych z zachowaniem odporności na błędy. Dzięki temu szybko i skutecznie zajmiesz się architekturą i eksploatacją każdej nowoczesnej bazy.
+
+W książce między innymi:
+
+    wprowadzenie do inżynierii niezawodności baz danych
+    inżynieria infrastruktury i zarządzanie nią
+    oceny ryzyka i strategie zarządzania bezpieczeństwem danych
+    metody przechowywania, indeksowania i replikacji danych
+    popularne wzorce architektoniczne rozproszonych baz danych
+    praktyczne wykorzystanie zasad inżynierii niezawodności w organizacji

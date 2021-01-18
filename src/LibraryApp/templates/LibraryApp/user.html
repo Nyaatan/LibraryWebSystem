@@ -34,10 +34,43 @@
                     </div>
                 {% endfor %}
             {% endif %}
+        <input type="hidden" name="type" value="u">
         </form>
         <button class="btn btn-primary" id="submit-btn">Submit</button>
     </template>
-    <template id="subscription-data">SUBSCRIPTION DATA</template>
+    <template id="subscription-data">
+        <div class="row row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="row">
+                <h5>Current plan: {{ user.subscription.name }}</h5>
+            </div>
+            <div class="row">
+                <h5>Borrowings left: {{ user.borrowings_remaining }}</h5>
+            </div>
+            {% for subscription in subscriptions %}
+                <div class="card shadow-sm card-book" style="width: 18rem;  margin-left: 1rem; margin-right: 1rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ subscription.name }}
+                        </h5>
+                        <h6>
+                            Borrowings available: {{ subscription.borrowing_count }}
+                        </h6>
+                        <h6>
+                            Price: {{ subscription.price }} PLN
+                        </h6>
+                        <form id="btn-read" method="post">
+                            {% csrf_token %}
+                            <a href="#" class="row" style="margin-bottom: 0; position: static">
+                                <input type="hidden" name="type" value="s">
+                                <input type="hidden" name="subscription" value="{{ subscription.subscription_id }}">
+                                <button class="btn btn-sm btn-outline-secondary" type="submit">Choose</button>
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </template>
 
     <div class="row">
         <div class="col-lg-3">

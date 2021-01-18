@@ -50,7 +50,7 @@
 
         <div class="row row-cols-sm-2 row-cols-md-3 g-3">
             {% for book, data in books.items %}
-                <div class="card shadow-sm card-book" style="width: 18rem;  margin-left: 1rem; margin-right: 1rem;">
+                <div class="card shadow-sm card-book" data-toggle="tooltip" title="{{ data.description }}" data-placement="right" style="width: 18rem;  margin-left: 1rem; margin-right: 1rem;">
                     <img class="card-img-top img-fluid" src="{% static data.cover %}"/>
                     <div class="card-body">
                         <h5 class="card-title">
