@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     let browseBtn = document.getElementsByClassName('btn-outline-secondary')[0];
     browseBtn.href = "/browse";
-    browseBtn.innerText = 'Browse';
+    browseBtn.innerText = 'Katalog';
     document.getElementById('submit-btn').onclick = submit;
 });
 
