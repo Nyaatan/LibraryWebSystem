@@ -107,25 +107,26 @@ def register(request):
 def read(request):
     context = {}
     isbn = int(request.GET.get('isbn', '-1'))
-    if isbn > 0:
-        context['isbn'] = isbn
-        user = User.objects.get(user_id=request.session['user'])
-        if user.borrowings_remaining > 0:
-            if len(Borrowing.objects.filter(user_id=user.user_id, isbn=isbn)) == 0:
-                borrow = Borrowing(start_date=datetime.today(), end_date=datetime.today() + timedelta(days=30),
-                                   isbn=Edition.objects.get(isbn=isbn), user_id=user.user_id,
-                                   borrowing_id=Borrowing.objects.count())
-                borrow.save()
-                user.borrowings_remaining -= 1
-                user.save()
-            try:
-                book_data = Edition.objects.get(isbn=isbn)
-                context['title'] = book_data.book.title
-            except Edition.DoesNotExist:
-                pass
-        else:
-            raise PermissionDenied
-
+    reader_id = request.session.get('user', None)
+    if (isbn < 0) or (reader_id is None):
+        raise PermissionDenied
+    context['isbn'] = isbn
+    user = User.objects.get(user_id=request.session['user'])
+    if user.borrowings_remaining > 0:
+        if len(Borrowing.objects.filter(user_id=user.user_id, isbn=isbn)) == 0:
+            borrow = Borrowing(start_date=datetime.today(), end_date=datetime.today() + timedelta(days=30),
+                                isbn=Edition.objects.get(isbn=isbn), user_id=user.user_id,
+                                borrowing_id=Borrowing.objects.count())
+            borrow.save()
+            user.borrowings_remaining -= 1
+            user.save()
+        try:
+            book_data = Edition.objects.get(isbn=isbn)
+            context['title'] = book_data.book.title
+        except Edition.DoesNotExist:
+            pass
+    else:
+        raise PermissionDenied
     return render(request, 'LibraryApp/read.html', context)
 
 
