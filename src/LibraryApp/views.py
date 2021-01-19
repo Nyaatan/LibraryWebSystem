@@ -98,7 +98,8 @@ def register(request):
     else:
         form = SignUpForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            new_user = form.save()
+            request.session['user'] = new_user.user_id
             return redirect('user')
     context = {'form': form}
     return render(request, 'LibraryApp/register.html', context)
